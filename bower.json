@@ -1,0 +1,29 @@
+{
+  "name": "public-key-crypto-js",
+  "version": "0.1.0",
+  "authors": [
+    "Vu Bao Nhu <nhubaovu@gmail.com>"
+  ],
+  "description": "Utilities Algorithms help to build public-key system like Elgamals and RSA",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "crypto",
+    "security",
+    "public-key"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "bootstrap": "~3.3.5"
+  }
+}

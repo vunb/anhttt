@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Public-key-crypto-js</title>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+    <script src="bower_components/angular/angular.js"></script>
+
+    <script src="app/public-key-crypto-js/global.js"></script>
+    <script src="app/public-key-crypto-js/app.js"></script>
+    <script src="app/public-key-crypto-js/services/ExtendedEuclid.js"></script>
+    <script src="app/public-key-crypto-js/services/PowerModulo.js"></script>
+    <script src="app/public-key-crypto-js/controllers/RSAController.js"></script>
+
+</head>
+<body ng-app="public-key-crypto-js" ng-controller="RSAController">
+
+<h1>Euclid mở rộng tính nghịch đảo theo modulo</h1>
+
+<form class="form-inline">
+    <div class="form-group form-group-sm">
+        <label class="sr-only" for="a">Nhập số nguyên a</label>
+        <input ng-model="a" type="number" class="form-control" id="a" placeholder="a?">
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="sr-only" for="b">Nhập số nguyên b</label>
+        <input ng-model="b" type="number" class="form-control" id="b" placeholder="b?">
+    </div>
+    <p>gcd(a, b): {{gcd(a, b)}};</p>
+
+    <p>egcd(a, b): {{egcd(a, b)}}; </p>
+    <p ng-if="a > b">Hay: <var>{{b}} ^-1 mod {{a}}</var> = <code>{{egcd(a, b)}} mod {{a}}</code></p>
+    <p ng-if="a <= b">Hay: <var>{{a}} ^-1 mod {{b}}</var> = <code>{{egcd(a, b)}} mod {{b}}</code></p>
+</form>
+
+
+<h1>Tính lũy thừa theo modulo sử dụng thuật toán nhân và bình phương</h1>
+
+<form class="form-inline" > <!--ng-init="x=0; n=0; m=0;"-->
+    <div class="form-group form-group-sm">
+        <label class="sr-only" for="a">Nhập số nguyên x</label>
+        <input ng-model="x" type="number" class="form-control" id="x" placeholder="x?">
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="sr-only" for="b">Nhập số mũ n</label>
+        <input ng-model="n" type="number" class="form-control" id="n" placeholder="n?">
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="sr-only" for="b">Nhập modulo m</label>
+        <input ng-model="m" type="number" class="form-control" id="m" placeholder="m?">
+    </div>
+    <p>y = x ^ n mod m = {{x}} ^ {{n}} mod {{m}} = <code>{{powmod(x, n, m)}} mod {{m}};</code></p>
+
+</form>
+
+<h1>Tìm phần tử nguyên thủy</h1>
+
+
+</body>
+</html>
