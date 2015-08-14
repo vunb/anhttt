@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Xây dựng hệ mật RSA</title>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+    <script src="bower_components/angular/angular.js"></script>
+
+    <script src="app/public-key-crypto-js/global.js"></script>
+    <script src="app/public-key-crypto-js/app.js"></script>
+    <script src="app/public-key-crypto-js/services/ExtendedEuclid.js"></script>
+    <script src="app/public-key-crypto-js/services/PowerModulo.js"></script>
+    <script src="app/public-key-crypto-js/controllers/RSAController.js"></script>
+
+    <style type='text/css'>
+        .double-input .form-control {
+            width: 50%;
+            border-right-width: 0px;
+        }
+
+        .double-input .form-control:focus {
+            border-right-width: 1px;
+        }
+
+        .triple-input .form-control {
+            width: 33.3%;
+            border-right-width: 0px;
+        }
+
+        .triple-input .form-control:focus {
+            border-right-width: 1px;
+        }
+    </style>
+
+</head>
+<body ng-app="public-key-crypto-js" ng-controller="RSAController" style="width: 70%; padding: 20px;">
+
+
+<h1>Xây dựng hệ mật RSA</h1>
+
+<p><strong>Nhập các thông tin đầu vào:</strong></p>
+
+<div class="input-group">
+    <input ng-model="x" type="text" placeholder="x = ?" class="form-control"/>
+</div>
+<div class="input-group triple-input">
+    <input ng-model="p" type="text" placeholder="p = ?" class="form-control"/>
+    <input ng-model="q" type="text" placeholder="q = ?" class="form-control"/>
+    <input ng-model="e" type="text" placeholder="e = ?" class="form-control"/>
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="button">Sinh e!</button>
+      </span>
+</div>
+
+Xây dụng RSA: p = {{p || "?"}}, q = {{q || "?"}}, e = {{e || "?"}}
+<div ng-if="p * q > 0">
+    <p>n = p * q = {{p}} * {{q}} = {{n = p * q}}</p>
+
+    <p>m = phi(n) = (p - 1)(q - 1) = {{p-1}} * {{q - 1}} = {{m = (p-1) * (q-1)}}</p>
+
+    <p>gcd(e, m) = <code>{{g = gcd(e, m)}}</code></p>
+
+    <div ng-if="g != 1">
+        <p style="color:red">gcd(e, m) = <code>{{g}} != 1</code> ==&gt; e được chọn không thỏa mãn !</p>
+    </div>
+    <div ng-if="g == 1">
+        <p>Ta nhân thấy e được chọn thỏa mãn <code>gcd(e, m) = 1</code>.</p>
+
+        <h2>Bước 1: Thực hiện tính khóa bí mật d</h2>
+
+        <p>Áp dụng thuật toán Euclid mở rộng, ta có:</p>
+        d = e ^ -1 mod m = {{e}} ^ -1 mod {{m}} = {{d = egcd(e, m)}}
+        <div ng-if="!x">
+            <p style="color:red">Nhập x > 0 !!!</p>
+        </div>
+        <div ng-if="x">
+            <h2>Bước 2: Mã hóa văn bản rõ x = {{x}}</h2>
+            Áp dụng thuật toán bình phương và nhân, tính lũy thừa theo modulo:
+            <p>y = x ^ e mod n = {{x}} ^ {{e}} mod {{n}} = {{y = powmod(x, e, n)}}</p>
+
+            <h2>Bước 3: Giải mã y = {{y}} khi biết d = {{d}}, n = {{n}}.</h2>
+
+            <p>x = y ^ d mod n = {{y}} ^ {{x}} mod {{n}} = {{de = powmod(y, d, n)}}</p>
+
+            <h2>Kết luận:</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>p</th>
+                    <th>q</th>
+                    <th>n</th>
+                    <th>e</th>
+                    <th>d</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{p}}</td>
+                    <td>{{q}}</td>
+                    <td>{{n}}</td>
+                    <td>{{e}}</td>
+                    <td>{{d}}</td>
+                </tr>
+                <tr>
+                    <td>Khóa công khai:</td>
+                    <td colspan="4">(e, n) = ({{e}}, {{n}})</td>
+                </tr>
+                <tr>
+                    <td>Khóa bí mật:</td>
+                    <td colspan="4">(d, n) = ({{d}}, {{n}})</td>
+                </tr>
+                <tr>
+                    <td>Bản rõ x:</td>
+                    <td colspan="4">{{x}}</td>
+                </tr>
+                <td>Bản mã y:</td>
+                <td colspan="4">{{y}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
+<hr/>
+<p><a href="#" ng-click="ky = !ky">Ký văn bản ?</a></p>
+
+<div ng-if="ky">
+    <h2>Phụ lục 1: Tính mũ theo modulo</h2>
+
+    <div class="input-group triple-input">
+        <input ng-model="x3" type="text" placeholder="x = ?" class="form-control"/>
+        <input ng-model="e3" type="text" placeholder="e = ?" class="form-control"/>
+        <input ng-model="n3" type="text" placeholder="n = ?" class="form-control"/>
+    </div>
+    <p>y = x ^ e mod n = {{x3}} ^ {{e3}} mod {{n3}} = <code>{{y3=powmod(x3, e3, n3)}}</code></p>
+
+    <hr/>
+    <h2>Phụ lục 2: Ký văn bản</h2>
+    <input ng-model="x2" type="text" placeholder="Bản rõ X = ?" class="form-control input-sm"/>
+    <input ng-model="h" type="text" placeholder="Mã băm của h = h(x) để ký = ?" class="form-control input-sm"/>
+    <input ng-model="e2" type="text" placeholder="Khóa công khai để mã hóa: e2 = ?" class="form-control input-sm"/>
+    <input ng-model="n2" type="text" placeholder="Modulo khóa công khai để mã hóa n2 = ?"
+           class="form-control input-sm"/>
+    <input ng-model="d1" type="text" placeholder="Khóa bí mật để ký: d1 = ?" class="form-control input-sm"/>
+    <input ng-model="n1" type="text" placeholder="Modulo khóa bí mật để ký n1 = ?" class="form-control input-sm"/>
+
+    <p>Bản rõ X để mã hóa và gửi = {{x2}}</p>
+
+    <p>Mã hóa X bằng cặp khóa công khai của người nhận (e2, n2) = ({{e2}}, {{x2}}): y2 = x2 ^ e2 mod n2 = {{x2}} ^
+        {{e2}} = {{y2=powmod(x2, e2, n2)}}</p>
+
+    <p>Ký văn bản X bằng cặp khóa bí mật (d1, n1) = ({{d1}}, {{n1}}): s = h ^ d1 mod n1 = {{h}} ^ {{d1}} mod {{n1}} =
+        {{s=powmod(h, d1, n1)}}</p>
+
+    <p>Bản mã: y2 = <code>{{y2}}</code></p>
+
+    <p>Chữ ký số: s = <code>{{s}}</code></p>
+</div>
+</body>
+</html>
