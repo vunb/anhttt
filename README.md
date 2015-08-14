@@ -9,6 +9,7 @@
 ## Chương trình mô phỏng
 
 File `index.html` mô phỏng các thuật toán
+
 1. Thuật toán Euclid tính ước số chung: gcd(a, b)
 2. Thuật toán Euclid mở rộng tính nghịch đảo b theo modulo a: egcd(a, b)
 3. Thuật toán bình phương và nhân
@@ -17,6 +18,7 @@ File `index.html` mô phỏng các thuật toán
 [![Chương trình mô phỏng](https://github.com/Vunb/public-key-crypto-js/raw/master/images/thuat-toan-cai-dat.PNG)](http://vndemy.com)
 
 File `rsa.html` mô phỏng thuật toán RSA và tạo chữ ký sô
+
 1. Thuật toán RSA với đầu vào là: `p`, `q`, `e`
 2. ~~Sinh ngẫu nhiên phần tử `e`~~
 3. Ký văn bản
