@@ -8,10 +8,10 @@ angular.module($appname)
         function gcd(a, b) {
             a = a || 0;
             b = b || 0;
-            if(a > b) {
+            if(a < b) {
                 var tmp = a;
                 a = b;
-                b = a;
+                b = tmp;
             }
 
             while (b != 0) {
@@ -26,10 +26,10 @@ angular.module($appname)
         function egcd(a, b) {
             a = a || 0;
             b = b || 0;
-            if(a > b) {
+            if(a < b) {
                 var tmp = a;
                 a = b;
-                b = a;
+                b = tmp;
             }
 
             var _s = [], _q = [], _r = [], n = 0;
