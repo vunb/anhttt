@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Xây dựng hệ mật Elgamal</title>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+
+    <script src="bower_components/angular/angular.js"></script>
+
+    <script src="app/public-key-crypto-js/global.js"></script>
+    <script src="app/public-key-crypto-js/app.js"></script>
+    <script src="app/public-key-crypto-js/values/PrimeNumbers.js"></script>
+    <script src="app/public-key-crypto-js/services/ExtendedEuclid.js"></script>
+    <script src="app/public-key-crypto-js/services/PowerModulo.js"></script>
+    <script src="app/public-key-crypto-js/services/GeneratePrimitiveNumber.js"></script>
+    <script src="app/public-key-crypto-js/controllers/ElgamalController.js"></script>
+
+
+</head>
+<body ng-app="public-key-crypto-js" ng-controller="ElgamalController" style="width: 70%; padding: 20px;">
+
+
+<h1>Xây dựng hệ mật Elgamal</h1>
+
+<p><strong>Nhập các thông tin đầu vào:</strong></p>
+
+<div class="input-group">
+    <input ng-model="x" type="text" placeholder="nhập văn bản cần mã hóa: x = ?" class="form-control"/>
+    <input ng-model="p" type="text" placeholder="nhập số nguyên tố: p = ?" class="form-control"/>
+    <input ng-model="a" type="text" placeholder="nhập khóa bí mật a < {{p || 'p'}}: a = ?" class="form-control"/>
+    <input ng-model="k" type="text" placeholder="chọn giá trị ngẫu nhiên k < {{p || 'p'}}: k = ?" class="form-control"/>
+</div>
+
+<p>Xây dụng Elgamal: x = <code>{{x || "?"}}</code>, p = <code>{{p || "?"}}</code>, a = <code>{{a || "?"}}</code>, k =
+    <code>{{k || "?"}}</code></p>
+
+<p>P là số nguyên tố: {{checkPrime = isPrime(p)}}</p>
+
+<div ng-if="!isPrime(p)">
+    <p>Gợi ý sử dụng số nguyên tố: <code>{{::suggest}}</code></p>
+</div>
+
+<div ng-if="x && p && a && k && isPrime(p)">
+
+    <h2>Bước 1: Tìm phần tử nguyên thủy</h2>
+
+    <p>Tìm được phần tử sinh: alpha = <code>{{alpha = primitiveNumber(p)}}</code></p>
+
+    <p>Tập ước số nguyên tố của U_prime(p - 1) = U_prime({{p - 1}}) = <code>&#123; {{uprime && uprime.join(',')}}
+        &#125;</code></p>
+
+    <h2>Bước 2: Tính khóa công khai beta</h2>
+
+    <p>Khóa công khai beta = alpha ^ a mod p = {{alpha}} ^ {{a}} mod {{p}} = <code>{{beta = powmod(alpha, a, p)}}</code>
+    </p>
+
+    <h2>Bước 3: Mã hóa x = {{x}}. Khóa đã chọn k = {{k || "?"}}</h2>
+
+    <p>K đã chọn: k = {{k || "?"}}</p>
+
+    <p>Tính y1 = alpha ^ k mod p = {{alpha}} ^ {{k}} mod {{p}} = <code>{{y1 = powmod(alpha, k, p)}}</code></p>
+
+    <p>Tính y2 = x * (beta ^ k) mod p = {{x}} * ({{beta}} ^ {{k}}) mod {{p}} = <code>{{y2 = (x * powmod(beta, k, p)) %
+        p}}</code></p>
+
+    <p>Bản mã thu được: (y1, y2) = <code>({{y1}}, {{y2}})</code></p>
+
+    <h2>Bước 4: Giải mã với khóa bí mật a = {{a}}</h2>
+
+    <p>Ta tìm lại x theo công thức: x = y2(y1 ^ a) ^ -1 mod p</p>
+
+    <p>Tính số nghịch đảo: (y1 ^ a) ^ -1 mod p = y1 ^ (p -a -1) mod p = {{y1}} ^ ({{p}} - {{a}} - 1) mod {{p}}= {{y1}} ^
+        {{p_a_1 = (p -a -1)}} mod {{p}} = <code>{{y1_inv = powmod(y1, p_a_1, p)}}</code></p>
+
+    <p>Giải mã: x = {{y2}} * {{y1_inv}} mod {{p}} = <code>{{(y2 * y1_inv) % p}}</code></p>
+
+    <h2>Kết luận</h2>
+
+    <p>Xây dựng được hệ mã Elgamal với bộ khóa: K = (p, alpha, a, beta) = ({{p}}, {{alpha}}, {{a}}, {{beta}})</p>
+
+    <p>Thành phần khóa công khai: (alpha, beta, p) = ({{p}}, {{alpha}}, {{beta}})</p>
+
+    <p>Thành phần khóa bí mật: (a, p) = ({{a}}, {{p}})</p>
+
+    <p>Mã hóa x = {{x}}: e(x, K) = (y1, y2) = <code>({{y1}}, {{y2}})</code></p>
+
+</div>
+
+<hr/>
+<p><a href="#" ng-click="ky = !ky">Ký văn bản và phụ lục ?</a></p>
+
+<div ng-if="ky">
+    <section ng-show="true">
+        <h3>Phụ lục 1: Tính mũ theo modulo</h3>
+
+        <div class="input-group triple-input">
+            <input ng-model="x3" type="text" placeholder="x = ?" class="form-control"/>
+            <input ng-model="e3" type="text" placeholder="e = ?" class="form-control"/>
+            <input ng-model="n3" type="text" placeholder="n = ?" class="form-control"/>
+        </div>
+        <p>y = x ^ e mod n = {{x3}} ^ {{e3}} mod {{n3}} = <code>{{y3=powmod(x3, e3, n3)}}</code></p>
+
+    </section>
+
+    <section ng-show="false">
+        <hr/>
+        <h3>Phụ lục 2: Ký văn bản</h3>
+
+        <input ng-model="x2" type="text" placeholder="Bản rõ X = ?" class="form-control input-sm"/>
+        <input ng-model="h" type="text" placeholder="Mã băm của h = h(x) để ký = ?" class="form-control input-sm"/>
+        <input ng-model="e2" type="text" placeholder="Khóa công khai để mã hóa: e2 = ?" class="form-control input-sm"/>
+        <input ng-model="n2" type="text" placeholder="Modulo khóa công khai để mã hóa n2 = ?"
+               class="form-control input-sm"/>
+        <input ng-model="d1" type="text" placeholder="Khóa bí mật để ký: d1 = ?" class="form-control input-sm"/>
+        <input ng-model="n1" type="text" placeholder="Modulo khóa bí mật để ký n1 = ?" class="form-control input-sm"/>
+
+        <p>Bản rõ X để mã hóa và gửi = {{x2}}</p>
+
+        <p>Mã hóa X bằng cặp khóa công khai của người nhận (e2, n2) = ({{e2}}, {{x2}}): y2 = x2 ^ e2 mod n2 = {{x2}} ^
+            {{e2}} = {{y2=powmod(x2, e2, n2)}}</p>
+
+        <p>Ký văn bản X bằng cặp khóa bí mật (d1, n1) = ({{d1}}, {{n1}}): s = h ^ d1 mod n1 = {{h}} ^ {{d1}} mod {{n1}}
+            =
+            {{s=powmod(h, d1, n1)}}</p>
+
+        <p>Bản mã: y2 = <code>{{y2}}</code></p>
+
+        <p>Chữ ký số: s = <code>{{s}}</code></p>
+    </section>
+</div>
+</body>
+</html>
