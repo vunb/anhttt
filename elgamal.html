@@ -20,21 +20,40 @@
     <script src="app/public-key-crypto-js/services/GeneratePrimitiveNumber.js"></script>
     <script src="app/public-key-crypto-js/controllers/ElgamalController.js"></script>
 
+    <style>
+        body {
+            margin: 5px 50px;
+        }
+    </style>
 
 </head>
-<body ng-app="public-key-crypto-js" ng-controller="ElgamalController" style="width: 70%; padding: 20px;">
+<body ng-app="public-key-crypto-js" ng-controller="ElgamalController">
 
 
 <h1>Xây dựng hệ mật Elgamal</h1>
 
-<p><strong>Nhập các thông tin đầu vào:</strong></p>
+<form class="row">
+    <div class="col-md-8 col-sm-10 col-xs-12">
 
-<div class="input-group">
-    <input ng-model="x" type="text" placeholder="nhập văn bản cần mã hóa: x = ?" class="form-control"/>
-    <input ng-model="p" type="text" placeholder="nhập số nguyên tố: p = ?" class="form-control"/>
-    <input ng-model="a" type="text" placeholder="nhập khóa bí mật a < {{p || 'p'}}: a = ?" class="form-control"/>
-    <input ng-model="k" type="text" placeholder="chọn giá trị ngẫu nhiên k < {{p || 'p'}}: k = ?" class="form-control"/>
-</div>
+        <div class="form-group">
+            <label for="x">Nhập văn bản cần mã hóa: x</label>
+            <input ng-model="x" type="text" id="x" placeholder="x = ?" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="x">Nhập số nguyên tố: p</label>
+            <input ng-model="p" type="text" id="p" placeholder="p = ?" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="x">Nhập khóa bí mật: a < {{p || 'p'}}</label>
+            <input ng-model="a" type="text" id="a" placeholder="a = ?" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label for="x">Chọn giá trị ngẫu nhiên: k < {{p || 'p'}}</label>
+            <input ng-model="k" type="text" id="k" placeholder="k = ?"
+                   class="form-control"/>
+        </div>
+    </div>
+</form>
 
 <p>Xây dụng Elgamal: x = <code>{{x || "?"}}</code>, p = <code>{{p || "?"}}</code>, a = <code>{{a || "?"}}</code>, k =
     <code>{{k || "?"}}</code></p>
@@ -92,19 +111,29 @@
 </div>
 
 <hr/>
-<p><a href="#" ng-click="ky = !ky">Ký văn bản và phụ lục ?</a></p>
 
 <div ng-if="ky">
     <section ng-show="true">
         <h3>Phụ lục 1: Tính mũ theo modulo</h3>
 
-        <div class="input-group triple-input">
-            <input ng-model="x3" type="text" placeholder="x = ?" class="form-control"/>
-            <input ng-model="e3" type="text" placeholder="e = ?" class="form-control"/>
-            <input ng-model="n3" type="text" placeholder="n = ?" class="form-control"/>
-        </div>
-        <p>y = x ^ e mod n = {{x3}} ^ {{e3}} mod {{n3}} = <code>{{y3=powmod(x3, e3, n3)}}</code></p>
+        <form class="row">
+            <div class="col-md-8 col-sm-10 col-xs-12">
 
+                <div class="form-group form-group-sm">
+                    <label for="x3">Nhập giá trị: x</label>
+                    <input ng-model="x3" type="text" id="x3" placeholder="x = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="e3">Nhập giá trị: e</label>
+                    <input ng-model="e3" type="text" id="e3" placeholder="e = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="n3">Nhập giá trị: n</label>
+                    <input ng-model="n3" type="text" id="n3" placeholder="n = ?" class="form-control"/>
+                </div>
+                <p>y = x ^ e mod n = {{x3}} ^ {{e3}} mod {{n3}} = <code>{{y3=powmod(x3, e3, n3)}}</code></p>
+            </div>
+        </form>
     </section>
 
     <section ng-show="false">
@@ -133,5 +162,8 @@
         <p>Chữ ký số: s = <code>{{s}}</code></p>
     </section>
 </div>
+
+<p><a href="javascript:void(0)" ng-click="ky = !ky">Ký văn bản và phụ lục ?</a></p>
+
 </body>
 </html>
