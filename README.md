@@ -15,7 +15,7 @@
 3. Thuật toán bình phương và nhân
 4. Tìm phần tử nguyên thủy (sinh)
 
-Demo:
+Demo: [index.html](http://how.vndemy.com/uet/anhttt/index.html)
 
 ![Chương trình mô phỏng][1-thuat-toan-cai-dat]
 
@@ -25,7 +25,7 @@ Demo:
 2. ~~Sinh ngẫu nhiên phần tử `e`~~
 3. Ký văn bản bằng lược đồ RSA
 
-Demo:
+Demo: [rsa.html](http://how.vndemy.com/uet/anhttt/rsa.html)
 
 ![Mô phỏng thuật toán RSA][2-mo-phong-rsa]
 
@@ -34,6 +34,8 @@ Demo:
 1. Thuật toán Elgamal nhận đầu vào là: `p`, `a`, `k`, `x`
 2. Sinh phần tử nguyên thủy tương ứng số nguyên tố `p` 
 3. ~~Ký văn bản bằng lược đồ Elgamal~~
+
+Demo: [elgamal.html](http://how.vndemy.com/uet/anhttt/elgamal.html)
 
 ### TODO List
 - Tạo chữ ký số bằng lược đồ Elgamal
