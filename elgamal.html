@@ -130,31 +130,95 @@
         </form>
     </section>
 
-    <section ng-show="false">
+    <section ng-show="true">
         <hr/>
         <h3>Phụ lục 2: Ký văn bản</h3>
 
-        <input ng-model="x2" type="text" placeholder="Bản rõ X = ?" class="form-control input-sm"/>
-        <input ng-model="h" type="text" placeholder="Mã băm của h = h(x) để ký = ?" class="form-control input-sm"/>
-        <input ng-model="e2" type="text" placeholder="Khóa công khai để mã hóa: e2 = ?" class="form-control input-sm"/>
-        <input ng-model="n2" type="text" placeholder="Modulo khóa công khai để mã hóa n2 = ?"
-               class="form-control input-sm"/>
-        <input ng-model="d1" type="text" placeholder="Khóa bí mật để ký: d1 = ?" class="form-control input-sm"/>
-        <input ng-model="n1" type="text" placeholder="Modulo khóa bí mật để ký n1 = ?" class="form-control input-sm"/>
+        <form class="row">
+            <div class="col-md-8 col-sm-10 col-xs-12">
+                <div class="form-group form-group-sm">
+                    <label for="x4">Nhập văn bản cần ký: x</label>
+                    <input ng-model="x4" type="text" id="x4" placeholder="x = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="p4">Nhập khóa công khai (là số nguyên tố): p</label>
+                    <input ng-model="p4" type="text" id="p4" placeholder="p = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="a4">Nhập khóa bí mật: a</label>
+                    <input ng-model="a4" type="text" id="a4" placeholder="a = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="k4">Nhập khóa bí mật ngẫu nhiên: k</label>
+                    <input ng-model="k4" type="text" id="k4" placeholder="k = ?" class="form-control"/>
+                </div>
+                <div class="result">
+                    <p>Các tham số: x = <code>{{x4}}</code>, p = <code>{{p4}}, p - 1 = {{p4 - 1}}, a = {{a4}}, k = {{k4}}</code></p>
 
-        <p>Bản rõ X để mã hóa và gửi = {{x2}}</p>
+                    <p>Phần tử nguyên thủy: alpha = <code>{{alpha4 = primitiveNumber(p4)}}</code></p>
 
-        <p>Mã hóa X bằng cặp khóa công khai của người nhận (e2, n2) = ({{e2}}, {{x2}}): y2 = x2 ^ e2 mod n2 = {{x2}} ^
-            {{e2}} = {{y2=powmod(x2, e2, n2)}}</p>
+                    <p>Cặp khóa công khai để kiểm tra chữ ký: (alpha, beta, p) = ({{alpha4}}, {{beta4 = powmod(alpha4,
+                        a4, p4)}}, {{p4}})</p>
 
-        <p>Ký văn bản X bằng cặp khóa bí mật (d1, n1) = ({{d1}}, {{n1}}): s = h ^ d1 mod n1 = {{h}} ^ {{d1}} mod {{n1}}
-            =
-            {{s=powmod(h, d1, n1)}}</p>
+                    <p>Cặp khóa bí mật để ký: (a, k) = ({{a4}}, {{k4}})</p>
 
-        <p>Bản mã: y2 = <code>{{y2}}</code></p>
+                    <p>egcd(k4, p4 - 1) mod p - 1 = {{egcd(k4, p4 - 1)}}</p>
+                    <p>(x4 - a4 * s1) mod p - 1 = {{mod(x4 - a4 * s1, p4 -1)}}</p>
+                    <p>Chữ ký trên x: (s1, s2) = (alpha ^ k mod p, (x - a * s1) * (k ^ -1) mod (p -1)) = ({{s1 =
+                        powmod(alpha4,
+                        k4, p4)}}, {{s2 = (( mod(x4 - a4 * s1, p4 - 1) * egcd(k4, p4 - 1)) % (p4-1))}}) </p>
+                </div>
+            </div>
+        </form>
 
-        <p>Chữ ký số: s = <code>{{s}}</code></p>
+
     </section>
+
+    <section>
+        <hr/>
+        <h3>Phụ lục 3: Kiểm tra chữ ký</h3>
+
+        <p>Verify (x, s2, s2) = đúng &lt;=&gt; <code>(beta ^ s1) * (s1 ^ s2) mod p = alpha ^ x mod p</code></p>
+
+        <form class="row">
+            <div class="col-md-8 col-sm-10 col-xs-12">
+                <div class="form-group form-group-sm">
+                    <label for="x5">Nhập văn bản cần đã được ký: x</label>
+                    <input ng-model="x5" type="text" id="x5" placeholder="x = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="p5">Nhập khóa công khai: p</label>
+                    <input ng-model="p5" type="text" id="p5" placeholder="p = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="alpha5">Nhập khóa công khai: alpha</label>
+                    <input ng-model="alpha5" type="text" id="alpha5" placeholder="alpha = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="beta5">Nhập khóa công khai: beta</label>
+                    <input ng-model="beta5" type="text" id="beta5" placeholder="beta = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="s51">Nhập chữ ký: s1</label>
+                    <input ng-model="s51" type="text" id="s51" placeholder="s1 = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="s52">Nhập chữ ký: s2</label>
+                    <input ng-model="s52" type="text" id="s52" placeholder="s2 = ?" class="form-control"/>
+                </div>
+
+                <div class="result">
+                    <p>VT = (beta ^ s1) * (s1 ^ s2) mod p = ({{beta5}} ^ {{s51}}) * ({{s51}} ^ {{s52}}) mod {{p5}} = {{vt5 = mod((powmod(beta5, s51, p5) * powmod(s51, s52, p5)),
+                        p5)}}</p>
+
+                    <p>VP = alpha ^ x mod p = {{alpha5}} ^ {{x5}} mod {{p5}} = {{vp5 = powmod(alpha5, x5, p5)}}</p>
+
+                    <p>Kết quả chữ ký: <code>{{vt5 == vp5}}</code></p>
+                </div>
+            </div>
+        </form>
+    </section>
+
 </div>
 
 <p><a href="javascript:void(0)" ng-click="ky = !ky">Ký văn bản và phụ lục ?</a></p>

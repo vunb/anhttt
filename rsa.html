@@ -197,6 +197,40 @@
             <p>Chữ ký số: s = <code>{{s}}</code></p>
         </div>
     </form>
+
+    <h2>Phụ lục 3: Kiểm tra chữ ký</h2>
+
+    <p>Verify (x, s) = đúng &lt;=&gt; <code>x = s ^ e mod n</code></p>
+
+    <form class="row">
+        <div class="col-md-8 col-sm-10 col-xs-12">
+            <div class="form-group form-group-sm">
+                <label for="x4">Nhập bản rõ được ký: x</label>
+                <input ng-model="x4" id="x4" type="text" placeholder="x4 = ?" class="form-control"/>
+            </div>            <div class="form-group form-group-sm">
+                <label for="s4">Nhập chữ ký: s</label>
+                <input ng-model="s4" id="s4" type="text" placeholder="s4 = ?" class="form-control"/>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="e4">Khóa công khai: e</label>
+                <input ng-model="e4" id="e4" type="text" placeholder="e4 = ?"
+                       class="form-control input-sm"/>
+            </div>
+            <div class="form-group form-group-sm">
+                <label for="n4">Modulo khóa công khai: n4</label>
+                <input ng-model="n4" id="n4" type="text" placeholder="n4 = ?"
+                       class="form-control input-sm"/>
+            </div>
+
+            <div class="result">
+                <p>VT = x = {{x4}}</p>
+
+                <p>VP = s ^ e mod n = {{s4}} ^ {{e4}} mod {{n4}} = {{vp4 = powmod(s4, e4, n4)}}</p>
+
+                <p>Kết quả chữ ký: <code>{{x4 == vp4}}</code></p>
+            </div>
+        </div>
+    </form>
 </div>
 
 <p><a href="javascript:void(0)" ng-click="ky = !ky">Ký văn bản và phụ lục ?</a></p>

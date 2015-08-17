@@ -24,6 +24,7 @@ angular.module($appname)
 
         // extended euclid algorithm
         function egcd(a, b) {
+            // b ^ -1 mod a
             a = a || 0;
             b = b || 0;
             if(a < b) {
@@ -32,7 +33,7 @@ angular.module($appname)
                 b = tmp;
             }
 
-            var _s = [], _q = [], _r = [], n = 0;
+            var _a = a, _s = [], _q = [], _r = [], n = 0;
 
             while (b > 0) {
                 var q = Math.floor(a / b);
@@ -53,12 +54,18 @@ angular.module($appname)
                 _s[i] = _s[i - 2] - _q[n - i + 1] * _s[i - 1];
             }
 
+            var result = _s[n + 1];
+            return mod(result, _a);
+        }
 
-            return _s[n + 1];
+        function mod(x, y) {
+            // x % y = x - y * floor(x / y)
+            return x - y * Math.floor(x / y);
         }
 
         return {
             gcd: gcd
             , egcd: egcd
+            , mod: mod
         };
     }]);

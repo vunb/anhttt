@@ -7,6 +7,7 @@ angular.module($appname)
 
         $scope.gcd = ExtendedEuclid.gcd;
         $scope.egcd = ExtendedEuclid.egcd;
+        $scope.mod = ExtendedEuclid.mod;
 
         $scope.powmod = PowerModulo;
         $scope.primitiveNumber = function (p) {
