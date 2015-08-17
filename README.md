@@ -33,12 +33,12 @@ Demo: [rsa.html](http://how.vndemy.com/uet/anhttt/rsa.html)
 
 1. Thuật toán Elgamal nhận đầu vào là: `p`, `a`, `k`, `x`
 2. Sinh phần tử nguyên thủy tương ứng số nguyên tố `p` 
-3. ~~Ký văn bản bằng lược đồ Elgamal~~
+3. Ký văn bản bằng lược đồ Elgamal
 
 Demo: [elgamal.html](http://how.vndemy.com/uet/anhttt/elgamal.html)
 
 ### TODO List
-- Tạo chữ ký số bằng lược đồ Elgamal
+- ~~Tạo chữ ký số bằng lược đồ Elgamal~~
 - ~~Mô phỏng thuật toán Elgamal và tạo chữ ký số~~
 
 
