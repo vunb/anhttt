@@ -78,7 +78,7 @@
 
             <h2>Bước 3: Giải mã y = {{y}} khi biết d = {{d}}, n = {{n}}.</h2>
 
-            <p>x = y ^ d mod n = {{y}} ^ {{x}} mod {{n}} = {{de = powmod(y, d, n)}}</p>
+            <p>x = y ^ d mod n = {{y}} ^ {{d}} mod {{n}} = {{de = powmod(y, d, n)}}</p>
 
             <h2>Kết luận:</h2>
             <table class="table table-bordered">
@@ -153,48 +153,27 @@
         <div class="col-md-8 col-sm-10 col-xs-12">
 
             <div class="form-group form-group-sm">
-                <label for="x2">Nhập giá trị: x</label>
+                <label for="x2">Nhập giá trị x hoặc mã băm của x để ký ?</label>
                 <input ng-model="x2" id="x2" type="text" placeholder="x = ?" class="form-control"/>
             </div>
             <div class="form-group form-group-sm">
-                <label for="h">Mã băm h = h(x) của x để ký</label>
-                <input ng-model="h" id="h" type="text" placeholder="h = h(x) = ?" class="form-control"/>
+                <label for="d2">Khóa bí mật để ký: d</label>
+                <input ng-model="d2" id="d2" type="text" placeholder="d = ?" class="form-control"/>
             </div>
             <div class="form-group form-group-sm">
-                <label for="e2">Khóa công khai để mã hóa: e2</label>
-                <input ng-model="e2" id="e2" type="text" placeholder="e2 = ?"
+                <label for="n2">Modulo khóa bí mật để ký n1</label>
+                <input ng-model="n2" id="n2" type="text" placeholder="n = ?"
                        class="form-control input-sm"/>
             </div>
-            <div class="form-group form-group-sm">
-                <label for="n2">Modulo khóa công khai để mã hóa n2</label>
-                <input ng-model="n2" id="n2" type="text" placeholder="n2 = ?"
-                       class="form-control input-sm"/>
-            </div>
-            <div class="form-group form-group-sm">
-                <label for="d1">Khóa bí mật để ký: d1</label>
-                <input ng-model="d1" id="d1" type="text" placeholder="d1 = ?" class="form-control"/>
-            </div>
-            <div class="form-group form-group-sm">
-                <label for="n1">Modulo khóa bí mật để ký n1</label>
-                <input ng-model="n1" id="n1" type="text" placeholder="n1 = ?"
-                       class="form-control input-sm"/>
-            </div>
-            <p>Bản rõ X để mã hóa và gửi = {{x2}}</p>
+            <p>Bản rõ x hoặc mã băm để ký x = {{x2}}</p>
 
-            <p>Mã hóa X bằng cặp khóa công khai của người nhận: (e2, n2) = ({{e2}}, {{x2}}): y2 = x2 ^ e2 mod n2 =
-                {{x2}}
-                ^
-                {{e2}} = {{y2=powmod(x2, e2, n2)}}</p>
-
-            <p>Ký văn bản X bằng cặp khóa bí mật của người gửi: (d1, n1) = ({{d1}}, {{n1}}): s = h ^ d1 mod n1 = {{h}} ^
-                {{d1}} mod
-                {{n1}}
+            <p>Ký văn bản X bằng cặp khóa bí mật của người gửi: (d, n) = ({{d2}}, {{n2}}): s = x ^ d2 mod n2 = {{x2}} ^
+                {{d2}} mod
+                {{n2}}
                 =
-                {{s=powmod(h, d1, n1)}}</p>
+                {{s=powmod(x2, d2, n2)}}</p>
 
-            <p>Bản mã: y2 = <code>{{y2}}</code></p>
-
-            <p>Chữ ký số: s = <code>{{s}}</code></p>
+            <p>Chữ ký số RSA: s = <code>{{s}}</code></p>
         </div>
     </form>
 
@@ -205,7 +184,7 @@
     <form class="row">
         <div class="col-md-8 col-sm-10 col-xs-12">
             <div class="form-group form-group-sm">
-                <label for="x4">Nhập bản rõ được ký: x</label>
+                <label for="x4">Nhập bản rõ hoặc mã băm đã được ký: x</label>
                 <input ng-model="x4" id="x4" type="text" placeholder="x4 = ?" class="form-control"/>
             </div>            <div class="form-group form-group-sm">
                 <label for="s4">Nhập chữ ký: s</label>

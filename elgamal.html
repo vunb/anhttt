@@ -57,8 +57,11 @@
 <div ng-if="!isPrime(p)">
     <p>Gợi ý sử dụng số nguyên tố: <code>{{::suggest}}</code></p>
 </div>
+<div ng-if="gcd(k, p - 1) != 1">
+    <p class="text-danger text-error">Không thỏa mãn tính khả nghịch: gcd(k, p - 1) = gcd({{k}}, {{p - 1}}) = {{gcd(k, p - 1)}}</p>
+</div>
 
-<div ng-if="x && p && a && k && isPrime(p)">
+<div ng-if="x && p && a && k && isPrime(p) && gcd(k, p - 1) == 1">
 
     <h2>Bước 1: Tìm phần tử nguyên thủy</h2>
 
@@ -96,7 +99,7 @@
 
     <p>Xây dựng được hệ mã Elgamal với bộ khóa: K = (p, alpha, a, beta) = ({{p}}, {{alpha}}, {{a}}, {{beta}})</p>
 
-    <p>Thành phần khóa công khai: (alpha, beta, p) = ({{p}}, {{alpha}}, {{beta}})</p>
+    <p>Thành phần khóa công khai: (alpha, beta, p) = ({{alpha}}, {{beta}}, {{p}})</p>
 
     <p>Thành phần khóa bí mật: (a, p) = ({{a}}, {{p}})</p>
 
@@ -108,7 +111,7 @@
 
 <div ng-if="ky">
     <section ng-show="true">
-        <h3>Phụ lục 1: Tính mũ theo modulo</h3>
+        <h3>Phụ lục 1: Mã hóa Elgamal</h3>
 
         <form class="row">
             <div class="col-md-8 col-sm-10 col-xs-12">
@@ -118,16 +121,32 @@
                     <input ng-model="x3" type="text" id="x3" placeholder="x = ?" class="form-control"/>
                 </div>
                 <div class="form-group form-group-sm">
-                    <label for="e3">Nhập giá trị: e</label>
-                    <input ng-model="e3" type="text" id="e3" placeholder="e = ?" class="form-control"/>
+                    <label for="alpha3">Nhập giá trị: alpha</label>
+                    <input ng-model="alpha3" type="text" id="alpha3" placeholder="alpha = ?" class="form-control"/>
                 </div>
                 <div class="form-group form-group-sm">
-                    <label for="n3">Nhập giá trị: n</label>
-                    <input ng-model="n3" type="text" id="n3" placeholder="n = ?" class="form-control"/>
+                    <label for="beta3">Nhập giá trị: beta</label>
+                    <input ng-model="beta3" type="text" id="beta3" placeholder="beta = ?" class="form-control"/>
                 </div>
-                <p>y = x ^ e mod n = {{x3}} ^ {{e3}} mod {{n3}} = <code>{{y3=powmod(x3, e3, n3)}}</code></p>
+                <div class="form-group form-group-sm">
+                    <label for="p3">Nhập giá trị: p</label>
+                    <input ng-model="p3" type="text" id="p3" placeholder="p = ?" class="form-control"/>
+                </div>
+                <div class="form-group form-group-sm">
+                    <label for="k3">Nhập giá trị khóa bí mật ngẫu nhiên: k</label>
+                    <input ng-model="k3" type="text" id="k3" placeholder="k = ?" class="form-control"/>
+                </div>
             </div>
         </form>
+
+        <p>Các tham số đã chọn: x = {{x3}}, alpha =  {{alpha3}}, beta = {{beta3}}, p = {{p3}}, k = {{k3 || "?"}}</p>
+
+        <p>Tính y1 = alpha ^ k mod p = {{alpha3}} ^ {{k3}} mod {{p3}} = <code>{{yb1 = powmod(alpha3, k3, p3)}}</code></p>
+
+        <p>Tính y2 = x * (beta ^ k) mod p = {{x3}} * ({{beta3}} ^ {{k3}}) mod {{p3}} = <code>{{yb2 = (x3 * powmod(beta3, k3, p3)) %
+            p3}}</code></p>
+
+        <p>Bản mã thu được: (y1, y2) = <code>({{yb1}}, {{yb2}})</code></p>
     </section>
 
     <section ng-show="true">
@@ -152,7 +171,10 @@
                     <label for="k4">Nhập khóa bí mật ngẫu nhiên: k</label>
                     <input ng-model="k4" type="text" id="k4" placeholder="k = ?" class="form-control"/>
                 </div>
-                <div class="result">
+                <div ng-if="gcd(k4, p4 - 1) != 1">
+                    <p class="text-danger text-error">Không thỏa mãn tính khả nghịch: gcd(k, p - 1) = gcd({{k4}}, {{p4 - 1}}) = {{gcd(k4, p4 - 1)}}</p>
+                </div>
+                <div class="result" ng-if="gcd(k4, p4 - 1) == 1">
                     <p>Các tham số: x = <code>{{x4}}</code>, p = <code>{{p4}}, p - 1 = {{p4 - 1}}, a = {{a4}}, k = {{k4}}</code></p>
 
                     <p>Phần tử nguyên thủy: alpha = <code>{{alpha4 = primitiveNumber(p4)}}</code></p>
