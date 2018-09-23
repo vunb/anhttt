@@ -15,7 +15,7 @@
 3. Thuật toán bình phương và nhân
 4. Tìm phần tử nguyên thủy (sinh)
 
-Demo: [index.html](http://how.vndemy.com/uet/anhttt/index.html)
+Demo: [index.html](index.html)
 
 ![Chương trình mô phỏng][1-thuat-toan-cai-dat]
 
@@ -25,7 +25,7 @@ Demo: [index.html](http://how.vndemy.com/uet/anhttt/index.html)
 2. ~~Sinh ngẫu nhiên phần tử `e`~~
 3. Ký văn bản bằng lược đồ RSA
 
-Demo: [rsa.html](http://how.vndemy.com/uet/anhttt/rsa.html)
+Demo: [rsa.html](rsa.html)
 
 ![Mô phỏng thuật toán RSA][2-mo-phong-rsa]
 
@@ -35,12 +35,12 @@ Demo: [rsa.html](http://how.vndemy.com/uet/anhttt/rsa.html)
 2. Sinh phần tử nguyên thủy tương ứng số nguyên tố `p` 
 3. Ký văn bản bằng lược đồ Elgamal
 
-Demo: [elgamal.html](http://how.vndemy.com/uet/anhttt/elgamal.html)
+Demo: [elgamal.html](elgamal.html)
 
 ### TODO List
 - ~~Tạo chữ ký số bằng lược đồ Elgamal~~
 - ~~Mô phỏng thuật toán Elgamal và tạo chữ ký số~~
 
 
-[1-thuat-toan-cai-dat]: https://github.com/Vunb/public-key-crypto-js/raw/master/images/thuat-toan-cai-dat.PNG
-[2-mo-phong-rsa]: https://github.com/Vunb/public-key-crypto-js/raw/master/images/mo-phong-rsa.PNG
+[1-thuat-toan-cai-dat]: https://github.com/vunb/anhttt/raw/master/images/thuat-toan-cai-dat.PNG
+[2-mo-phong-rsa]: https://github.com/vunb/anhttt/raw/master/images/mo-phong-rsa.PNG
